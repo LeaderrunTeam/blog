@@ -8,9 +8,9 @@ import { useComponents } from './useComponents'
 import ElementPlus from 'element-plus'
 import ElementNext  from 'element-next'
 import 'element-plus/dist/index.css'
-import 'element-next/lib/styles/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import nextZhcn  from  'element-next/lib/lang/zh-cn'
+import nextZhcn from 'element-next/lib/locale/zh-cn'
+import '../../../node_modules/element-next/lib/styles/index.css'
 
 export default {
   extends: DefaultTheme,

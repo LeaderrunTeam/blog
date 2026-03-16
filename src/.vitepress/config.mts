@@ -110,8 +110,6 @@ export default defineConfig({
     returnToTopLabel: '返回顶部',
     lastUpdatedText: '最后更新',
 
-    logo: '/logo.svg',
-
     // nav
     nav,
 
@@ -120,6 +118,11 @@ export default defineConfig({
     footer: {message: 'Copyright © 2005 - present 深圳市立航货运股份有限公司', copyright: '<a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备11067407号-1 粤公网安备 44030802000646号</a>'},
   },
   vite: {
+    build: {
+      rollupOptions: {
+        external: ["element-next"]
+      }
+    },
       ssr: {
         noExternal: ["element-next"],
       },
