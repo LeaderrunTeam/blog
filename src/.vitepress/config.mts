@@ -37,9 +37,9 @@ export default defineConfig({
     ],
     [
       'link',
-      { rel: 'stylesheet', href: '/css/fancybox.min.css' },
+      { rel: 'stylesheet', href: '/docs/css/fancybox.min.css' },
     ],
-    ['script', { src: '/js/fancybox.min.js' }]
+    ['script', { src: '/docs/js/fancybox.min.js' }]
   ],
   base: base,
   lang: 'zh-CN',
