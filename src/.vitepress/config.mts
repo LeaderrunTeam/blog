@@ -5,7 +5,7 @@ import { demoblockPlugin, demoblockVitePlugin } from 'vitepress-theme-demoblock'
 import nav from './configs/nav'
 import sidebar from './configs/sidebar'
 import plantuml from 'markdown-it-plantuml'
-const base = process.env.BASE || '/'
+const base =  '/docs/'
 
 
 function MdCustomAttrPugin(md, type, mdOptions: Record<string, Object>) {
@@ -24,9 +24,17 @@ function MdCustomAttrPugin(md, type, mdOptions: Record<string, Object>) {
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Seetltd 官方文档",
+  title: "Leaderrun 官方文档",
   description: "前后端低代码解决方案",
   head: [
+     [
+      'link',
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: 'https://logistics.leaderrun.com/static/logo/favicon.ico'
+      }
+    ],
     [
       'link',
       { rel: 'stylesheet', href: '/css/fancybox.min.css' },
@@ -38,6 +46,7 @@ export default defineConfig({
   appearance: true,
   lastUpdated: true,
   themeConfig: {
+    logo: "https://logistics.leaderrun.com/static/logo/logo.png",
     outline: {
       level: 'deep', // 右侧大纲标题层级
       label: '目录', // 右侧大纲标题文本配置
@@ -108,10 +117,7 @@ export default defineConfig({
 
     // sidebar
     sidebar,
-    footer: {
-      message: '粤ICP备2022017444号',
-      copyright: 'Copyright © 2019-present Seetltd'
-    }
+    footer: {message: 'Copyright © 2005 - present 深圳市立航货运股份有限公司', copyright: '<a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备11067407号-1 粤公网安备 44030802000646号</a>'},
   },
   vite: {
       ssr: {

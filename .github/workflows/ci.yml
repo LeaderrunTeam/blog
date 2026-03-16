@@ -1,84 +1,25 @@
-name: Deploy blog website
+name: Deploy Build docker image
 on:
   push:
     branches:
-      - master
-
-env:
-  SERVER_PRIVATE_KEY: ${{ secrets.SERVER_PRIVATE_KEY }}
-  SERVER_HOST: ${{ secrets.SERVER_HOST }}
-  USER_NAME: ${{ secrets.USER_NAME }}
-  # Algolia setting
-  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
-  ALGOLIA_API_ID: ${{ secrets.ALGOLIA_API_ID }}
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
-      ALGOLIA_WRITE_API_KEY: ${{ secrets.ALGOLIA_ADMIN_API_KEY }}
-      ALGOLIA_SITE_URL: http://docs.seedltd.cn
-      ALGOLIA_INDEX_NAME: seedltd-online-docs
     steps:
       - name: Checkout code 😀
-        uses: actions/checkout@master
-        with:
-          ref: master
+        uses: actions/checkout@main
 
-      - name: Setup node18 👀
+      - name: Setup node20 👀
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           always-auth: true
 
+      - name: Get Package Project Name
+        run: node -p -e '`PACKAGE_NAME=${require("./package.json").name}`' >> $GITHUB_ENV
 
-      - name: Setup pnpm 🚀
-        uses: pnpm/action-setup@v4
-        with:
-          version: 8.6.5
-          run_install: false
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies 🔧
-        run: pnpm i --no-frozen-lockfile
-
-      # 打包
-      - name: Build website 🤓
-        run: pnpm docs:build
-
-      # 上传打包资源
-      - name: Deploy seedltd docs 🚀
-        uses: easingthemes/ssh-deploy@v2.2.11
-        env:
-          SSH_PRIVATE_KEY: ${{ env.SERVER_PRIVATE_KEY }}
-          ARGS: '-avz --delete'
-          SOURCE: 'src/.vitepress/dist/'
-          REMOTE_HOST: ${{ env.SERVER_HOST }}
-          REMOTE_USER: ${{ env.USER_NAME }}
-          TARGET: /home/project/client/blog
-
-      - name: Clear algolia index 🚨
-        run: |
-          cd .algolia
-          pip install --upgrade 'algoliasearch>=2.0,<3.0'
-          python clear_index.py
-
-      - name: Scrape the site 💯
-        run: |
-          cd .algolia
-          touch .env
-          sudo chmod +x ./scraper.sh
-          ./scraper.sh
+      - name: Trigger Jenkins Build
+        # SERVER_PORT：服务的端口号。MAIL：构建失败后通知的邮箱地址，不传构建失败不发送通知邮件
+        run: curl -i --max-time 60 -G -d "job=$PACKAGE_NAME&token=${{secrets.TOKEN}}&SERVER_PORT=7991&MAIL=zuan.lai@leaderrun.com&BRANCH_NAME=main" --url ${{secrets.JENKINS_URL}}
