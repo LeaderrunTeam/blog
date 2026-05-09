@@ -10,19 +10,20 @@ import ElementNext  from 'element-next'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import nextZhcn from 'element-next/lib/locale/zh-cn'
-import '../../../node_modules/element-next/lib/styles/index.css'
+import 'element-next/lib/styles/index.css'
 
 export default {
-  extends: DefaultTheme,
-  Layout: () => {
-    return h(DefaultTheme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
-  },
+  // extends: DefaultTheme,
+  // Layout: () => {
+  //   return h(DefaultTheme.Layout, null, {
+  //     // https://vitepress.dev/guide/extending-default-theme#layout-slots
+  //   })
+  // },
+  ...DefaultTheme,
   enhanceApp(ctx) {
     DefaultTheme.enhanceApp(ctx)
     useComponents(ctx.app)
     ctx.app.use(ElementPlus, {locale: {...nextZhcn, ...zhCn}})
-    ctx.app.use(ElementNext )
+    ctx.app.use(ElementNext, {})
   }
 }

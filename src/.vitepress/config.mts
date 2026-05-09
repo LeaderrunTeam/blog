@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { demoblockPlugin, demoblockVitePlugin } from 'vitepress-theme-demoblock'
-
+import path from 'node:path'
 
 import nav from './configs/nav'
 import sidebar from './configs/sidebar'
@@ -118,45 +118,25 @@ export default defineConfig({
     footer: {message: 'Copyright © 2005 - present 深圳市立航货运股份有限公司', copyright: '<a href="https://beian.miit.gov.cn/" target="_blank">粤ICP备11067407号-1 粤公网安备 44030802000646号</a>'},
   },
   vite: {
-    build: {
-      rollupOptions: {
-        external: ["element-next"]
+     resolve: {
+      alias: {
+        'element-next/lib/styles/index.css': path.resolve(
+          __dirname,
+          '../../node_modules/element-next/lib/styles/index.css'
+        )
       }
     },
-      ssr: {
-        noExternal: ["element-next"],
-      },
+    // build: {
+    //   rollupOptions: {
+    //     external: ['element-next/lib/styles/index.css']
+    //   }
+    // },
     plugins: [demoblockVitePlugin()]
   },
   markdown: {
     // options for markdown-it-toc
     toc: { level: [1, 2, 3] },
     config: (md) => {
-      // md.use(demoBlockPlugin, {
-      //   cssPreprocessor: 'scss',
-      //   scriptImports: [
-      //     "import * as ElementPlus from 'element-plus'",
-      //     "import * as ElementPlus from 'element-next'"
-      //   ],
-      //   scriptReplaces: [
-      //     {
-      //       searchValue: /const ({ defineComponent as _defineComponent }) = Vue/g,
-      //       replaceValue: 'const { defineComponent: _defineComponent } = Vue'
-      //     },
-      //     {
-      //       searchValue: /import ({.*}) from 'element-plus'/g,
-      //       replaceValue: (s, s1) => `const ${s1} = ElementPlus`
-      //     },
-      //     {
-      //       searchValue: /const ({ defineComponent as _defineComponent }) = Vue/g,
-      //       replaceValue: 'const { defineComponent: _defineComponent } = Vue'
-      //     },
-      //     {
-      //       searchValue: /import ({.*}) from 'element-next'/g,
-      //       replaceValue: (s, s1) => `const ${s1} = ElementNext`
-      //     }
-      //   ]
-      // })
       // @ts-ignore
       md.use(demoblockPlugin)
 
