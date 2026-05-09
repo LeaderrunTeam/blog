@@ -11,7 +11,7 @@
     "docs:preview": "vitepress preview src"
   },
   "dependencies": {
-    "element-next": "^1.55.8",
+    "element-next": "^1.56.1",
      "vue": "^3.5.30",
     "element-plus": "npm:@lhrdc/element-plus@^2.13.5-stable.5"
   },
@@ -20,7 +20,7 @@
     "markdown-it-plantuml": "^1.4.1",
     "mermaid": "^11.13.0",
     "prettier": "^3.3.3",
-    "vitepress": "1.6.4",
+    "vitepress": "1.0.1",
     "vitepress-plugin-mermaid": "^2.0.17",
     "vitepress-theme-demoblock": "^3.1.3"
   },

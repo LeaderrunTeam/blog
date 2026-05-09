@@ -170,15 +170,17 @@ export default {
 
 ## Props
 
-| Name           | Description                                                                                   | Type    | Options | Default |
-| :------------- | :-------------------------------------------------------------------------------------------- | :------ | :------ | :------ |
-| v-model        | 表单值                                                                                        | object  | -       | -       |
-| form-props     | 请参考 [NForm](./form.md#props) 属性                                                          | object  | -       | -       |
-| table-props    | 请参考 [NTable](./table.md#props) 属性                                                        | object  | -       | -       |
-| add            | 是否显示 add 按钮                                                                             | boolean | -       | -       |
-| add-props      | add 按钮属性                                                                                  | object  | -       | -       |
-| enter-query    | 输入框回车是否触发查询事件                                                                    | boolean | -       | true    |
-| outside-height | 用户计算表格高度。除开 `ProTableForm` 之外的其它元素高度，设置了表格高度或者设置成 0 则无效， | number  | -       | 0       |
+| Name           | Description                                                  | Type    | Options | Default |
+| :------------- | :----------------------------------------------------------- | :------ | :------ | :------ |
+| v-model        | 表单值                                                       | object  | -       | -       |
+| form-props     | 请参考 [NForm](./form.md#props) 属性                         | object  | -       | -       |
+| table-props    | 请参考 [NTable](./table.md#props) 属性                       | object  | -       | -       |
+| add            | 是否显示 add 按钮                                            | boolean | -       | -       |
+| add-props      | add 按钮属性                                                 | object  | -       | -       |
+| enter-query    | 输入框回车是否触发查询事件                                   | boolean | -       | true    |
+| outside-height | 用户计算表格高度。除开 `ProTableForm` 之外的其它元素高度，设置了表格高度或者设置成 0 则自动高度 | number  | -       | 0       |
+| enterQuery     | 是否回车表单触发查询事件                                     | boolean | -       | true    |
+| loading        | 是否显示loading                                              | boolean | -       | false   |
 
 **支持[Form 属性](./form.md#props) 和 [Dialog 属性](./dialog.md#props)**
 

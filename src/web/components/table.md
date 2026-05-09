@@ -19,9 +19,7 @@ meta:
 
 ## 使用
 
-### 动态列配置
-
-当 `show-config=true` 让用户可以自定义列的顺序，宽度等。当用户保存自己的自定义列的时候会回调 `save` 函数，它会返回两个参数，一个是修改后的列内容另一个 `done` 函数，处理完用户保存的列后需要调用这个函数来关闭窗口
+### 多级表头
 
 :::demo
 
@@ -31,7 +29,6 @@ meta:
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
     :data="data3"
-    :show-config="true"
     :columns="columns3"
     :total="total"
     @save="doSaveColumn"
@@ -51,15 +48,20 @@ export default {
     const pageSize = ref(10)
     const total = ref(50)
     const columns3 = ref([
-      {
-        label: '日期',
-        prop: 'date',
-        timeFormat: 'YYYY-MM-DD HH:mm:ss'
-      },
-      {
-        label: '姓名',
-        prop: 'name',
-        enumType: true
+        {
+            label: '多级表头',
+            children: [
+                 {
+                    label: '日期',
+                    prop: 'date',
+                    timeFormat: 'YYYY-MM-DD HH:mm:ss'
+                  },
+                  {
+                    label: '姓名',
+                    prop: 'name',
+                    enumType: true
+                  },
+            ]
       },
       {
         label: '地址',
@@ -226,8 +228,8 @@ export default {
 - 可以通过 `#action-column` 插槽定制显示操作按钮内容，或者通过 `actions` 数组来维护你的按钮。**推荐使用后者**
 - 如果你是通过 `actions` 数组来维护操作按钮，那么它支持以下这些东西
   - 设置 `action-limit` 属性来控制显示的按钮，多余的按钮会收缩到`更多`里面。
-  - 设置 `type` 来控制 `el-button` 的形态，它默认是 `text`
-  - 设置 `color` 来控制你的按钮颜色，支持 `primary / warning / danger / success / info` 。注意它只在 `type=text` 的时候有效
+  - 设置 `text` 来控制 `el-button` 的形态，它默认是 `text`
+  - 设置 `type` 来控制你的按钮颜色，支持 `primary / warning / danger / success / info` 。注意它只在 `text=true` 的时候有效
   - 设置 `icon` 来设置你的按钮图标，使按钮更加形象
   - 设置 `show` 来控制你的按钮是否显示，或者 `ifShow` 函数动态控制，它的优先级高于 `show` 属性
 
@@ -291,33 +293,33 @@ export default {
 
     const actions = [
       {
-        text: '成功',
-        color: 'success'
+        label: '成功',
+        type: 'success'
       },
       {
-        text: '警告',
-        color: 'warning'
+        label: '警告',
+        type: 'warning'
       },
       {
-        text: '主题',
-        color: 'primary'
+        label: '主题',
+        type: 'primary'
       },
       {
-        text: '危险',
-        color: 'danger'
+        label: '危险',
+        type: 'danger'
       },
       {
-        text: '默认'
+        label: '默认'
       },
       {
-        text: '默认2',
+        label: '默认2',
         click(scope) {
           console.log('click --------->', scope)
         }
       },
       {
-        text: '危险',
-        color: 'danger',
+        label: '危险',
+        type: 'danger',
         show: false,
         ifShow(scope) {
           return true
@@ -327,16 +329,16 @@ export default {
         }
       },
       {
-        text: '成功2',
-        color: 'success'
+        label: '成功2',
+        type: 'success'
       },
       {
-        text: '警告2',
-        color: 'warning'
+        label: '警告2',
+        type: 'warning'
       },
       {
-        text: '主色2',
-        color: 'primary'
+        label: '主色2',
+        type: 'primary'
       }
     ]
     return {
@@ -538,26 +540,36 @@ export default {
 
 ### Columns Props
 
-| Name                  | Description                                                                                                                                                                                      | Type                            | Options | Default           |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | ------- | ----------------- |
-| prop                  | 对应 `data` 的字段名。支持获取`a.b`路径相应的值。支持多字段取值，通过换行形式显示                                                                                                                | `string/TableColumn[]`          | -       | -                 |
-| label                 | 列头文本，传入数组换行显示                                                                                                                                                                       | `string/string[]`               | -       | -                 |
-| render                | 自定义渲染内容。支持[字符串函数](../../web/faq/component.md#字符串函数)，参数：_row: 行数据，h：渲染函数需要返回这个对象，index：下标_                                                           | Function(row,index):VNode       | -       | -                 |
-| `show-helper`         | 是否显示提示图标，自定义头部插槽的时候无效                                                                                                                                                       | boolean                         | -       | false             |
-| `helper-message`      | 提示内容，`show-helper`为真的时候有效                                                                                                                                                            | `string/string[]`               | -       | -                 |
-| `show-copy`           | 是否显示拷贝图标                                                                                                                                                                                 | boolean                         | -       | false             |
+| Name                  | Description                                                  | Type                            | Options | Default           |
+| --------------------- | ------------------------------------------------------------ | ------------------------------- | ------- | ----------------- |
+| prop                  | 对应 `data` 的字段名。支持获取`a.b`路径相应的值。支持多字段取值，通过换行形式显示 | `string/TableColumn[]`          | -       | -                 |
+| label                 | 列头文本，传入数组换行显示                                   | `string/string[]`               | -       | -                 |
+| render                | 自定义渲染内容。支持[字符串函数](../../web/faq/component.md#字符串函数)，参数：_row: 行数据，h：渲染函数需要返回这个对象，index：下标_ | Function(row,index):VNode       | -       | -                 |
+| `show-helper`         | 是否显示提示图标，自定义头部插槽的时候无效                   | boolean                         | -       | false             |
+| `helper-message`      | 提示内容，`show-helper`为真的时候有效                        | `string/string[]`               | -       | -                 |
+| children              | 多级表头下的子项                                             | TableColumn[]                   | -       | -                 |
 | `time-format`         | 日期格式化，如果为 true 按`YYYY-MM-DD HH:mm:ss`格式化时间。不为空的时候则根据其值格式化时间。参考：[dayjs 格式化](https://dayjs.fenxianglu.cn/category/display.html#%E6%A0%BC%E5%BC%8F%E5%8C%96) | `string/boolean`                | -       | -                 |
-| `enum-type`           | 是否枚举类型。如果为`true`格式必须是`json`对象，并且必须包含`[enumDescName]`字段                                                                                                                 | boolean                         | -       | false             |
-| `enum-desc-name`      | 枚举 label 字段名称                                                                                                                                                                              | string                          | -       | desc              |
-| `tag-type-name`       | 枚举状态类型字段名称。值内容参考`Tag`组件。如果`enumType=true`并且该字段不是空的时候显示`Ntag`组件，类型就是`tagTypeName`的值。适用于数据状态                                                    | string                          | -       | tagType           |
-| image                 | 是否显示图片组件                                                                                                                                                                                 | boolean                         | -       | true              |
-| `image-style`         | 图片样式                                                                                                                                                                                         | `Record<string, string>/string` | -       | `'width: "60px"'` |
-| `image-src-list-prop` | 预览图片路径集合的属性                                                                                                                                                                           | string                          | -       | -                 |
-| show                  | 是否显示列                                                                                                                                                                                       | boolean                         | -       | true              |
-| color                 | 16 进制文本颜色                                                                                                                                                                                  | string                          | -       | -                 |
-| ifColor               | 动态返回 16 进制文本颜色                                                                                                                                                                         | `(row, index) => string`        | -       | -                 |
+| `enum-type`           | 是否枚举类型。如果为`true`格式必须是`json`对象，并且必须包含`[enumDescName]`字段 | boolean                         | -       | false             |
+| `enum-desc-name`      | 枚举 label 字段名称                                          | string                          | -       | desc              |
+| `tag-type-name`       | 枚举状态类型字段名称。值内容参考`Tag`组件。如果`enumType=true`并且该字段不是空的时候显示`Ntag`组件，类型就是`tagTypeName`的值。适用于数据状态 | string                          | -       | tagType           |
+| image                 | 是否显示图片组件                                             | boolean                         | -       | true              |
+| `image-style`         | 图片样式                                                     | `Record<string, string>/string` | -       | `'width: "60px"'` |
+| `image-src-list-prop` | 预览图片路径集合的属性                                       | string                          | -       | -                 |
+| show                  | 是否显示列                                                   | boolean                         | -       | true              |
+| color                 | 16 进制文本颜色                                              | string                          | -       | -                 |
+| ifColor               | 动态返回 16 进制文本颜色                                     | `(row, index) => string`        | -       | -                 |
+| showCopy              | 是否文本可以拷贝。需要注意：如果是用了render或者插槽渲染并且要拷贝文本，默认会拷贝列的所有文本，如果你只想拷贝指定内容，可以在根节点设置属性`data-copy`等于你要拷贝的值，或者要拷贝的值放在第一个元素，默认会取第一个元素的文本 | boolean                         | -       | false             |
+| router                | 路由配置，会显示可点击蓝色字体。可以自定义点击事件           | `TableColumnRouter`             | -       | -                 |
 
 **除 `formatter` 属性不支持之外，支持全部 `element-plus` [表格列属性](https://element-plus.gitee.io/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)**
+
+### TableColumnRouter Props
+
+| Name   | Description              | Type                                      | Options | Default |
+| ------ | ------------------------ | ----------------------------------------- | ------- | ------- |
+| show   | 是否显示可点连接         | boolean                                   | -       | false   |
+| ifShow | 动态控制是否可以点击连接 | `(row: T, index: number) => boolean`      | -       | -       |
+| click  | 点击回调                 | `click?: (row: T, index: number) => void` | -       | -       |
 
 ### Actions Props
 
