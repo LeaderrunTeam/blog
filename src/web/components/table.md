@@ -514,6 +514,95 @@ export default {
 
 :::
 
+### 行内编辑
+
+开启 `editable` 后，配置了 `edit` 的列在编辑状态下会渲染编辑器。表格会自动注入 `编辑 / 保存 / 取消 / 删除` 行操作按钮以及底部 `新增` 按钮，并在保存 / 删除时通过事件回调交给你处理持久化。
+
+- `edit: true` 使用默认输入框 `n-input`；传入对象可自定义编辑器组件、属性与校验规则。
+- 校验依赖 `edit.rules`，只有配置了规则的列才会在保存前校验。
+- `新增` 会向 `data` 追加一行并进入编辑；`取消` 未保存的新增行会自动移除。
+
+::: warning 提示
+
+`新增 / 删除` 会直接就地修改传入的 `data` 数组（`push / splice`），请确保 `data` 是响应式的（`ref / reactive`）。`row-save`、`row-delete` 的 `done` 回调传入 `false` 时不会退出编辑 / 不会移除行。
+
+:::
+
+:::demo
+
+```vue
+<template>
+  <n-table
+    :data="data"
+    :columns="columns"
+    editable
+    :action-props="{ width: 220 }"
+    @row-save="onSave"
+    @row-delete="onDelete"
+  />
+</template>
+
+<script>
+import { ref } from 'vue'
+
+export default {
+  setup() {
+    const columns = ref([
+      {
+        label: '姓名',
+        prop: 'name',
+        edit: true
+      },
+      {
+        label: '年龄',
+        prop: 'age',
+        edit: {
+          component: 'n-input',
+          props: { type: 'number' },
+          rules: { required: true, message: '请输入年龄', trigger: 'blur' }
+        }
+      },
+      {
+        label: '性别',
+        prop: 'sex',
+        enumType: true,
+        enumDescName: 'label',
+        edit: {
+          component: 'n-select',
+          props: {
+            data: [
+              { label: '男', value: 1 },
+              { label: '女', value: 2 }
+            ]
+          }
+        }
+      }
+    ])
+
+    const data = ref([
+      { name: '张三', age: 18, sex: { value: 1, label: '男' } },
+      { name: '李四', age: 20, sex: { value: 2, label: '女' } }
+    ])
+
+    // row：当前行，done：保存回调（done(false) 保持编辑态），isAdd：是否为新增行
+    const onSave = (row, done, isAdd) => {
+      console.log('save', row, isAdd)
+      done()
+    }
+
+    const onDelete = (row, done) => {
+      console.log('delete', row)
+      done()
+    }
+
+    return { columns, data, onSave, onDelete }
+  }
+}
+</script>
+```
+
+:::
+
 ## Props
 
 | Name                  | Description                                                                                                                            | Type             | Options | Default          |
@@ -535,6 +624,7 @@ export default {
 | show-overflow-tooltip | 当内容过长被隐藏时显示 tooltip                                                                                                         | boolean          | -       | true             |
 | highlight-current-row | 是否要高亮当前行                                                                                                                       | boolean          | -       | true             |
 | contextmenu           | 是否通过右键菜单显示操作按钮                                                                                                           | boolean          | -       | false            |
+| editable              | 是否开启行内编辑，需配合列的 `edit` 配置使用，参考 [行内编辑](#行内编辑)                                                               | boolean          | -       | false            |
 
 **支持 `element-plus` [表格属性](https://element-plus.gitee.io/zh-CN/component/table.html#table-%E5%B1%9E%E6%80%A7)**
 
@@ -560,8 +650,19 @@ export default {
 | ifColor               | 动态返回 16 进制文本颜色                                     | `(row, index) => string`        | -       | -                 |
 | showCopy              | 是否文本可以拷贝。需要注意：如果是用了render或者插槽渲染并且要拷贝文本，默认会拷贝列的所有文本，如果你只想拷贝指定内容，可以在根节点设置属性`data-copy`等于你要拷贝的值，或者要拷贝的值放在第一个元素，默认会取第一个元素的文本 | boolean                         | -       | false             |
 | router                | 路由配置，会显示可点击蓝色字体。可以自定义点击事件           | `TableColumnRouter`             | -       | -                 |
+| edit                  | 行内编辑配置，需配合表格 `editable` 使用。为 `true` 时使用默认输入框，或传入对象自定义，参考下面 [Edit Props](#edit-props) | `boolean/TableColumnEdit`       | -       | -                 |
 
 **除 `formatter` 属性不支持之外，支持全部 `element-plus` [表格列属性](https://element-plus.gitee.io/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7)**
+
+### Edit Props
+
+| Name         | Description                                                        | Type                          | Options | Default   |
+| ------------ | ----------------------------------------------------------------- | ----------------------------- | ------- | --------- |
+| component    | 编辑器组件，支持组件名（如 `n-input`、`n-select`）或组件对象       | `string/Component`            | -       | `n-input` |
+| props        | 传给编辑器组件的属性                                              | object                        | -       | -         |
+| slots        | 编辑器组件的插槽                                                  | object                        | -       | -         |
+| rules        | 校验规则，同 `el-form-item` 的 `rules`                            | `FormItemRule/FormItemRule[]` | -       | -         |
+| defaultValue | 新增行时该字段的默认值                                            | any                           | -       | -         |
 
 ### TableColumnRouter Props
 
@@ -594,6 +695,10 @@ export default {
 | prev-click     | 用户点击上一页按钮改变当前页后触发                                                                                                                                                          | 当前页                    |
 | next-click     | 用户点击下一页按钮改变当前页后触发                                                                                                                                                          | 当前页                    |
 | column-change  | 用户点击保存自定义列的时候触发，其中 `done` 函数可以关闭 `loading` 状态和弹窗，如果传入 `false` 只关闭 `loading`，不关闭弹窗。拿到 `columns` 属性之后你需要重置旧的属性值以达到改变列的状态 | `function(columns, done)` |
+| row-add        | 开启 `editable` 后点击底部新增按钮或调用 `addRow` 时触发                                                                                                                                    | `function(row)`           |
+| row-save       | 点击行内编辑的保存按钮时触发（校验通过后）。`done()` 退出编辑，`done(false)` 保持编辑态；`isAdd` 表示是否为新增行                                                                             | `function(row, done, isAdd)` |
+| row-cancel     | 点击行内编辑的取消按钮时触发，数据已还原（新增行已移除）                                                                                                                                    | `function(row)`           |
+| row-delete     | 点击行内编辑的删除按钮或调用 `deleteRow` 时触发。`done()` 从 `data` 中移除该行，`done(false)` 不移除                                                                                         | `function(row, done)`     |
 
 **[el-table 事件](https://element-plus.gitee.io/zh-CN/component/table.html#table-%E4%BA%8B%E4%BB%B6)**
 
@@ -610,6 +715,12 @@ export default {
 | clearFilter        | 传入由`columnKey` 组成的数组以清除指定列的过滤条件。 不传入参数时用于清空所有过滤条件，数据会恢复成未过滤的状态 | columnKeys                  |
 | doLayout           | 对 Table 进行重新布局。 当 Table 或其祖先元素由隐藏切换为显示时，可能需要调用此方法                             | —                           |
 | sort               | 手动对 Table 进行排序。 参数 `prop` 属性指定排序列，`order` 指定排序顺序。                                      | prop: string, order: string |
+| addRow             | 新增一行并进入编辑状态，可传入初始行数据，返回新增的行（需开启 `editable`）                                     | raw?: object                |
+| editRow            | 让某一行进入编辑状态                                                                                            | row                         |
+| saveRow            | 保存某一行的编辑（会先校验），触发 `row-save` 事件                                                              | row                         |
+| cancelRow          | 取消某一行的编辑并还原数据，触发 `row-cancel` 事件                                                              | row                         |
+| deleteRow          | 删除某一行，触发 `row-delete` 事件                                                                              | row                         |
+| isEditing          | 判断某一行是否处于编辑状态                                                                                      | row                         |
 
 **[el-table 方法](https://element-plus.gitee.io/zh-CN/component/table.html#table-%E6%96%B9%E6%B3%95)**
 

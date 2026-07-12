@@ -81,6 +81,10 @@ export const createWebMenu = () => {
           link: '/web/components/tag'
         },
         {
+          text: 'Text 文本',
+          link: '/web/components/text'
+        },
+        {
           text: 'Card 块',
           link: '/web/components/card'
         },
@@ -137,6 +141,14 @@ export const createWebMenu = () => {
           link: '/web/components/table-form'
         },
         {
+          text: 'Vtable 虚拟表格',
+          link: '/web/components/vtable'
+        },
+        {
+          text: 'VTableForm 虚拟表格表单',
+          link: '/web/components/vtable-form'
+        },
+        {
           text: 'Descriptions 详情',
           link: '/web/components/description'
         },
@@ -167,6 +179,10 @@ export const createWebMenu = () => {
         {
           text: 'DropdownSelect 下拉选项',
           link: '/web/components/dropdown-select'
+        },
+        {
+          text: 'Tour 引导',
+          link: '/web/components/tour'
         }
       ]
     },
