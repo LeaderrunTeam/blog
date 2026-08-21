@@ -139,5 +139,5 @@ export default {
 使用 `typescript` 时可从组件中导出 `VtableFormExpose` 类型以获得更好的类型推导。
 
 ```ts
-import type { VtableFormExpose } from 'element-pro'
+import type { VtableFormExpose } from 'element-next'
 ```

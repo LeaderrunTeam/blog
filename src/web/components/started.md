@@ -37,24 +37,24 @@ app.mount('#app')
 
 ::: warning 提示
 
-因为组件是动态构建，所有 `element-plus` 依赖不能动态引入，必须是全量或者按需引入。包括`element-next`的时候也是一样。`n-from`组件的 item 项如果使用到了内置的拓展组件(n-tip,n-date-pricker .....) 都需要手工引入。
+因为部分组件会根据配置动态创建子组件，`element-plus` 依赖需要全量引入或明确按需引入。使用 `n-form`、`n-table` 等配置化组件时，如果配置中使用了 `n-tip`、`n-date-picker` 等扩展组件，也需要显式注册对应组件。
 
 :::
 
 ### 组件级注册
 
 ```js
-import { NSelect, NDatePricker } from 'element-next'
+import { NSelect, NDatePicker } from 'element-next'
 import 'element-plus/dist/index.css'
 app.use(NSelect)
-app.use(NDatePricker)
+app.use(NDatePicker)
 ```
 
 #### Css 按需引入
 
 ```js
-import { NForm } from 'element-pro'
-import 'element-pro/lib/styles/form'
+import { NForm } from 'element-next'
+import 'element-next/lib/styles/form.css'
 ```
 
 ### 使用 unplugin-vue-components

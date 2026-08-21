@@ -69,6 +69,7 @@ import 'virtual:svg-icons-register'
 | Name  | Description      | Type            | Options | Default |
 | ----- | ---------------- | --------------- | ------- | ------- |
 | name  | 图标名称         | string          | -       | -       |
+| prefix | SVG 图标前缀；Element Plus 图标可使用 `el` 前缀 | string | - | `icon` |
 | size  | 图标大小         | `string|number` | -       | 14      |
 | spin  | 是否启用旋转模式 | boolean         | -       | false   |
 | color | 图标颜色         | string          | -       | -       |

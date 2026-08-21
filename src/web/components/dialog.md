@@ -88,6 +88,8 @@ export default {
 | :--------------- | :----------------------------------------------------------- | :----------------------------------- | :------ | :----------------------------------------------------------- |
 | v-model          | 是否显示 Dialog                                              | boolean                              | -       | -                                                            |
 | draggable        | 是否可拖拽窗口                                               | boolean                              | -       | true                                                         |
+| overflow         | 内容超出时是否允许滚动                                       | boolean                              | -       | true                                                         |
+| align-center     | 是否垂直水平居中                                             | boolean                              | -       | true                                                         |
 | show-full-screen | 是否显示全屏图标，如果是自定义`title`插槽该属性无效          | boolean                              | -       | true                                                         |
 | fixed-height     | 是否固定弹窗内容高度                                         | boolean                              | -       | false                                                        |
 | confirm-props    | 确定按钮属性，见下方`confirm-props`                          | object                               | -       | `{text: '确定', show: true, type: 'primary'}`                |

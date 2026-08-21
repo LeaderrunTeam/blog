@@ -59,7 +59,7 @@ const restartCount = () => {
 | Name      | Description      | Type       | Default |
 | --------- | ---------------- | ---------- | ------- |
 | startVal  | 开始的值         | number     | 0       |
-| endVal    | 结束的值         | number     | -       |
+| endVal    | 结束的值         | number     | 2017    |
 | duration  | 动画持续的毫秒数 | number     | 3000    |
 | autoplay  | 是否自动执行     | boolean    | true    |
 | decimals  | 保留小数点位数   | number     | 0       |
@@ -69,7 +69,7 @@ const restartCount = () => {
 | suffix    | 后缀             | string     | ''      |
 | useEasing | 是否开启动画     | boolean    | true    |
 | easingFn  | 动画计算函数     | `function` | -       |
-| color     | 字体颜色         | string     | -       |
+| color     | 字体颜色         | string     | ''      |
 
 ## Events
 

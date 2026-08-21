@@ -120,6 +120,12 @@ export default {
 | tooltip-show-mode           | 内容超长提示模式                                                      | string              | standard / whenTruncated | whenTruncated |
 | tooltip-show-delay          | 内容超长悬浮多久后显示提示，单位 ms                                   | number              | -                    | 500           |
 | tooltip-interaction         | 提示弹窗内容获取鼠标焦点时是否不隐藏                                  | boolean             | -                    | true          |
+| suppress-column-virtualisation | 是否关闭列虚拟化                                             | boolean             | -                    | true          |
+| show-download-csv           | 是否显示 CSV 下载按钮                                             | boolean             | -                    | true          |
+| get-row-style               | 行样式函数或字符串函数体                                           | function/string     | -                    | -             |
+| get-row-class               | 行 class 函数或字符串函数体                                         | function/string     | -                    | -             |
+| has-permission               | 操作按钮权限判断函数                                               | function            | -                    | -             |
+| cell-renderer                | 默认单元格渲染器                                                   | object              | -                    | -             |
 
 **支持 `ag-grid` 的 [GridOptions](https://www.ag-grid.com/vue-data-grid/grid-options/) 属性**
 

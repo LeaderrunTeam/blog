@@ -56,11 +56,12 @@ function handleSuccess(data: any) {
 
 | Name         | Type      | Default          | Description        |
 | ------------ | --------- | ---------------- | ------------------ |
-| value        | `boolean` | -                | 是否通过           |
+| model-value  | `boolean` | false            | 是否通过           |
+| is-slot      | `boolean` | false            | 是否使用自定义插槽模式 |
 | text         | `string`  | `请按住滑块拖动` | 未拖动时候显示文字 |
 | successText  | `string`  | `验证通过`       | 验证成功后显示文本 |
 | height       | `number`  | 40               | 高度               |
-| width        | `number`  | 260              | 宽度               |
+| width        | `number|string` | 220          | 宽度               |
 | circle       | `boolean` | false            | 是否圆角           |
 | wrapStyle    | `object`  | -                | 外层容器样式       |
 | contentStyle | `object`  | -                | 主体内容样式       |

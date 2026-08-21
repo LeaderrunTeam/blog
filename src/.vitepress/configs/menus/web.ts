@@ -49,6 +49,10 @@ export const createWebMenu = () => {
           link: '/web/components/started'
         },
         {
+          text: '组件总览',
+          link: '/web/components/component-index'
+        },
+        {
           text: '主题',
           link: '/web/components/theme'
         },
@@ -71,6 +75,10 @@ export const createWebMenu = () => {
         {
           text: 'Button 按钮',
           link: '/web/components/button'
+        },
+        {
+          text: 'Link 链接',
+          link: '/web/components/link'
         },
         {
           text: 'Lazy 懒加载',
@@ -153,7 +161,7 @@ export const createWebMenu = () => {
           link: '/web/components/description'
         },
         {
-          text: 'DatePrick 日期选择器',
+          text: 'DatePicker 日期选择器',
           link: '/web/components/date-prick'
         },
         {

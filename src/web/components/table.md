@@ -522,6 +522,8 @@ export default {
 - 校验依赖 `edit.rules`，只有配置了规则的列才会在保存前校验。
 - `新增` 会向 `data` 追加一行并进入编辑；`取消` 未保存的新增行会自动移除。
 
+编辑相关的动作都会通过事件发送给你处理：`row-add`（新增）、`row-save`（保存）、`row-cancel`（取消）、`row-delete`（删除）。其中 `row-save`、`row-delete` 带 `done` 回调，业务处理（如调接口）完成后调用 `done()` 完成、`done(false)` 中断。除了内置按钮，也可以通过 `ref` 调用 `addRow / editRow / saveRow / cancelRow / deleteRow` 主动操作。
+
 ::: warning 提示
 
 `新增 / 删除` 会直接就地修改传入的 `data` 数组（`push / splice`），请确保 `data` 是响应式的（`ref / reactive`）。`row-save`、`row-delete` 的 `done` 回调传入 `false` 时不会退出编辑 / 不会移除行。
@@ -532,21 +534,34 @@ export default {
 
 ```vue
 <template>
-  <n-table
-    :data="data"
-    :columns="columns"
-    editable
-    :action-props="{ width: 220 }"
-    @row-save="onSave"
-    @row-delete="onDelete"
-  />
+  <div>
+    <div style="margin-bottom: 12px">
+      <!-- 通过 ref 调用暴露的方法主动操作 -->
+      <n-button type="primary" @click="onInsert">插入一行（addRow）</n-button>
+      <n-button @click="onEditFirst">编辑第一行（editRow）</n-button>
+    </div>
+    <n-table
+      ref="tableRef"
+      :data="data"
+      :columns="columns"
+      editable
+      :action-props="{ width: 220 }"
+      @row-add="onAdd"
+      @row-save="onSave"
+      @row-cancel="onCancel"
+      @row-delete="onDelete"
+    />
+  </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
 export default {
   setup() {
+    const tableRef = ref()
+
     const columns = ref([
       {
         label: '姓名',
@@ -584,18 +599,61 @@ export default {
       { name: '李四', age: 20, sex: { value: 2, label: '女' } }
     ])
 
-    // row：当前行，done：保存回调（done(false) 保持编辑态），isAdd：是否为新增行
+    // 新增：点击底部"新增"按钮或调用 addRow 后触发
+    const onAdd = (row) => {
+      console.log('row-add', row)
+    }
+
+    // 保存：校验通过后触发。row 当前行，done 保存回调，isAdd 是否为新增行
     const onSave = (row, done, isAdd) => {
-      console.log('save', row, isAdd)
-      done()
+      // 模拟异步保存接口
+      setTimeout(() => {
+        if (!row.name) {
+          ElMessage.error('姓名不能为空')
+          done(false) // 保存失败，保持编辑态
+          return
+        }
+        ElMessage.success(isAdd ? '新增成功' : '保存成功')
+        done() // 完成，退出编辑
+      }, 300)
     }
 
+    // 取消：数据已还原（未保存的新增行已自动移除）
+    const onCancel = (row) => {
+      console.log('row-cancel', row)
+    }
+
+    // 删除：done() 从 data 移除该行，done(false) 不移除
     const onDelete = (row, done) => {
-      console.log('delete', row)
-      done()
+      setTimeout(() => {
+        ElMessage.success('删除成功')
+        done()
+      }, 300)
     }
 
-    return { columns, data, onSave, onDelete }
+    // 通过 ref 主动新增一行并进入编辑
+    const onInsert = () => {
+      tableRef.value.addRow({ name: '新用户', age: 0 })
+    }
+
+    // 通过 ref 让第一行进入编辑
+    const onEditFirst = () => {
+      if (data.value[0]) {
+        tableRef.value.editRow(data.value[0])
+      }
+    }
+
+    return {
+      tableRef,
+      columns,
+      data,
+      onAdd,
+      onSave,
+      onCancel,
+      onDelete,
+      onInsert,
+      onEditFirst
+    }
   }
 }
 </script>
@@ -610,11 +668,11 @@ export default {
 | data                  | 显示的数据                                                                                                                             | array            | -       | -                |
 | columns               | 自动生成表单的参数，参考下面 [columns](#columns-props)                                                                                 | array            | -       | -                |
 | selection             | 显示多选框，支持 `columns` 的属性                                                                                                      | boolean / object | -       | false            |
-| index                 | 显示索引，支持 `columns` 的属性                                                                                                        | boolean / object | -       | false            |
-| expand                | 开启展开插槽，支持 `columns` 的属性                                                                                                    | boolean / object | -       | false            |
+| index                 | 显示索引，支持 `columns` 的属性                                                                                                        | boolean / object / function | - | true |
+| expand                | 开启展开插槽，支持 `columns` 的属性                                                                                                    | boolean / object | -       | -                |
 | action-props          | 操作列属性配置，参考：[el-table-column](https://element-plus.gitee.io/zh-CN/component/table.html#table-column-%E5%B1%9E%E6%80%A7) 属性 | object           | -       | -                |
 | actions               | 操作列每一行业务按钮配置，参考下面 [actions](#actions-props) 的配置                                                                    | array            | -       | -                |
-| action-limit          | 数据行操作按钮最多显示多少个按钮，多余的放到更多下拉按钮中。0 全部显示不放更多里面                                                     | number           | -       | 0                |
+| action-limit          | 数据行操作按钮最多显示多少个按钮，多余的放到更多下拉按钮中。0 全部显示不放更多里面                                                     | number           | -       | 4                |
 | show-config           | 是否显示自定义列                                                                                                                       | boolean          | -       | false            |
 | loading               | 是否显示 loading                                                                                                                       | boolean          | -       | false            |
 | total                 | 总条目数                                                                                                                               | number           | -       | -                |
@@ -625,6 +683,11 @@ export default {
 | highlight-current-row | 是否要高亮当前行                                                                                                                       | boolean          | -       | true             |
 | contextmenu           | 是否通过右键菜单显示操作按钮                                                                                                           | boolean          | -       | false            |
 | editable              | 是否开启行内编辑，需配合列的 `edit` 配置使用，参考 [行内编辑](#行内编辑)                                                               | boolean          | -       | false            |
+| border                | 是否显示表格边框                                                                                                                       | boolean          | -       | true             |
+| highlight-current-row | 是否高亮当前行                                                                                                                         | boolean          | -       | true             |
+| selectable            | 判断当前行是否可勾选的函数                                                                                                             | function         | -       | -                |
+
+`NTable` 还透传 `ElTable` 的全部原生属性。上表列出的是组件增强属性及其覆盖的默认值。
 
 **支持 `element-plus` [表格属性](https://element-plus.gitee.io/zh-CN/component/table.html#table-%E5%B1%9E%E6%80%A7)**
 
@@ -737,7 +800,7 @@ export default {
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { TableExpose } from 'element-pro'
+import type { TableExpose } from 'element-next'
 
 const tableRef = ref<TableExpose>({} as TableExpose)
 // ...

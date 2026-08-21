@@ -773,6 +773,14 @@ meta:
 | `remote-config` | 远程加载数据配置。请参考下方`RemoteConfig` | object                                   | -       | -                                                            |
 | `fetch-data`    | 自定义远程请求数据函数                     | `Function():Promise<Array<SelectTree>>>` | -       | -                                                            |
 | line | 是否显示树的连接线 | boolean | - | true |
+| clearable | 是否允许清空 | boolean | - | true |
+| filterable | 是否允许筛选 | boolean | - | true |
+| click-parent | 点击父节点时是否选中 | boolean | - | true |
+| default-expand-all | 是否默认展开全部节点 | boolean | - | true |
+| include-half-checked | 获取半选节点 | boolean | - | false |
+| leaf-only | 仅允许选择叶子节点 | boolean | - | true |
+| check-strictly | 是否严格父子不互相关联 | boolean | - | true |
+| expand-on-click-node | 点击节点时是否展开 | boolean | - | false |
 
 ### SelectTree
 

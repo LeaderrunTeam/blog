@@ -1,4 +1,4 @@
-# DownloadSelect
+# DropdownSelect
 
 下拉选项
 
@@ -56,6 +56,9 @@ const data2 = Array.from({ length: 10 }).map((_, idx) => ({
 | placeholder | 未选择时占用提示语 | String | - | -    |
 | labelStyle | label样式 | String | - | `max-width: 100px`    |
 | config | 下拉数据配置 | `Record<String, String>` | - |  `{'value':'value', 'desc':'desc', 'disabled': 'disabled'}`   |
+| truncated | 文本超出时显示省略号 | boolean | - | true |
+| line-clamp | 多行文本截断行数 | string / number | - | - |
+| remote-config | 保留的远程配置属性，目前组件不主动发起远程请求 | object | - | - |
 
 ### Config
 
@@ -78,4 +81,4 @@ const data2 = Array.from({ length: 10 }).map((_, idx) => ({
 
 | Name  | Description            | Parameters         |
 | ----- | ---------------------- | ------------------ |
-| defaulet | 下拉选项插槽 | `item`: 当前项的值 |
+| default | 下拉选项插槽 | `item`: 当前项的值 |

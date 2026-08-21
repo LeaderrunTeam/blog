@@ -221,7 +221,7 @@ meta:
 | Name               | Description                            | Type    | Options | Default |
 | :----------------- | :------------------------------------- | :------ | :------ | :------ |
 | v-model            | 表单值                                 | object  | -       | -       |
-| v-mode:visibled    | 显示窗口                               | boolean | -       | false   |
+| v-model:visible    | 显示窗口                               | boolean | -       | false   |
 | form-props         | 请参考 [NForm](./form.md#props) 属性   | object  | -       | -       |
 | dialog-props       | 请参考 [NTable](./table.md#Props) 属性 | object  | -       | -       |
 | submit-on-validate | 校验不通过的时候不触发提交事件         | boolean | -       | true    |

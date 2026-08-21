@@ -1,13 +1,13 @@
 ---
-title: DatePrick
+title: DatePicker
 meta:
   - name: description
     content: 日期选择器
 ---
 
-# DatePrick
+# DatePicker
 
-`el-date-prick`日期选择器增强
+`NDatePicker` 是对 Element Plus `ElDatePicker` 的增强，组件名和文档路径中的旧拼写 `DatePrick` 将在后续版本统一为 `DatePicker`。
 
 ## 使用
 
@@ -59,6 +59,7 @@ meta:
 | start-placeholder | 范围选择时开始日期的占位内容 | string | — | — |
 | end-placeholder | 范围选择时结束日期的占位内容 | string | — | — |
 | type | 显示类型 | string | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date |
+| seq | 用于同一表单中定位日期项的序号 | number | - | - |
 | format | 显示在输入框中的格式 | string | 请查看 [date formats](https://element-plus.gitee.io/en-US/component/date-picker.html#date-formats) | YYYY-MM-DD |
 | popper-class | DatePicker 下拉框的类名 | string | — | — |
 | range-separator | 选择范围时的分隔符 | string | — | '-' |

@@ -194,8 +194,16 @@ const formRemoteSearch = ref({
 | ------------------------- | ------------------------------------------------------------ | ---------- | ------- | ------------------- |
 | v-model:form              | 设置需要绑定选中的数据源                                     | object     | -       | -                   |
 | `binding-key`             | 选择数据源和下拉选项值绑定，key为下拉选项配置，value：`v-model:form`的key | object     | -       | -                   |
+| `model-value`             | 当前输入值                                                   | string / number | - | - |
 | `remote-search`           | 开启远程搜索                                                 | boolean    | -       | false               |
 | `remote-search-field-key` | 远程搜索字段名称                                             | string     | -       | -                   |
 | `display-key`             | 下拉选项需要显示的key                                        | `string[]` | -       | `['value', 'desc']` |
 | `search-key`              | 可以搜索的字段                                               | `string[]` | -       | `['value', 'desc']` |
 | limit                     | 搜索最大结果条数                                             | number     | -       | 50                  |
+| model-value / v-model     | 当前输入值                                                   | string / number | - | - |
+| data                      | 本地选项数据                                                 | array      | -       | []                  |
+| config                    | 选项字段映射，支持 `value`、`desc` 等字段                   | object     | -       | -                   |
+| remote-config             | 远程请求配置                                                 | object     | -       | -                   |
+| clearable                 | 是否允许清空                                                 | boolean    | -       | true                |
+| seq                       | 用于同一表单中定位输入项的序号                               | number     | -       | -                   |
+| value-key                 | 选项值字段名                                                 | string     | -       | `value`             |

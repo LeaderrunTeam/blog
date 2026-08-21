@@ -52,6 +52,11 @@ export default {
 | -------- | -------------- | ------ | ------------------------------------- | ------- |
 | format   | 字符串格式化   | string | uppercase / lowercase / capitalize    | -       |
 | trimType | 清空输入的空格 | string | 'start', 'end', 'both', 'all', 'none' | both    |
+| input-style | 输入框原生样式 | `StyleValue` | - | - |
+| clearable | 是否显示清除按钮 | boolean | - | true |
+| seq | 用于同一表单中定位输入项的序号 | number | - | - |
+
+`type`、`model-value` 以及其它属性会透传给 `ElInput`。
 
 ## Events
 

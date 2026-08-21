@@ -191,6 +191,7 @@ meta:
 | data         | 状态节点集合 | `array<StatusFlow>` | -       | -       |
 | current-code | 当前高亮节点 | number              | -       | -       |
 | tiled        | 是否平铺节点 | boolean             | -       | true    |
+| direction    | 节点排列方向 | string              | horizontal / vertical | horizontal |
 
 ### StatusFlow
 

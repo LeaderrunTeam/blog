@@ -153,6 +153,8 @@ import { ref } from 'vue'
 | helper-message | 提示内容                                 | `string | string[]` | -         | -   |
 | placement      | Tooltip 出现的位置， 参考`ElTooltip`属性 | string  | -         | top-start |
 | folding        | 是否可以展开/收缩                        | boolean | -         | false     |
+| show-helper    | 是否显示辅助提示图标                    | boolean | -         | false     |
+| helper-message | 辅助提示内容                             | string / string[] | - | - |
 
 ## Slots
 

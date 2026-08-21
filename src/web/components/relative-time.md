@@ -33,6 +33,8 @@ const time = ref(now - 60 * 3 * 1000)
 </style>
 ```
 
+:::
+
 ## Props
 
 | Name  | Type                 | Default    | Options                      | Description                                         |

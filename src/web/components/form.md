@@ -394,11 +394,16 @@ export default {
 | Name                | Description                                                  | Type                                             | Options                                             | Default |
 | :------------------ | :----------------------------------------------------------- | :----------------------------------------------- | :-------------------------------------------------- | :------ |
 | v-model             | 绑定值                                                       | object                                           | -                                                   | -       |
+| label-width         | 标签宽度                                                     | string / number                                  | -                                                   | `90px`  |
+| label-position      | 标签位置                                                     | string                                           | left / right / top                                  | -       |
+| size                | 表单尺寸                                                     | string                                           | default / small / large                             | -       |
+| inline              | 是否为行内表单                                               | boolean                                          | -                                                   | false   |
 | fields              | 表单项配置，参考下面 [fields](#fields-props) 属性            | array                                            | -                                                   | -       |
 | action              | 操作项按钮配置，参考下面 [action](#action-props)属性         | object                                           | -                                                   | -       |
 | inner-label         | 是否使用内置 label 模式，`element-plus` 组件无效             | boolean                                          | -                                                   | false   |
 | enter-on-submit     | 输入框回车触发提交按钮点击事件，如果开启则自定义的 `onKeyup`事件无效 | boolean                                          |                                                     | false   |
 | validate-on-submit  | 点击提交按钮的时候校验表单，拦截并提示校验不通过的内容       | boolean                                          |                                                     | true    |
+| loading             | 是否显示表单提交 loading                                     | boolean                                          | -                                                   | false   |
 | first-auto-focus    | 进入页面第一个输入框是否获取焦点，只有第一个元素是 input 的时候有效 | boolean                                          |                                                     | true    |
 | show-more           | 是否显示更多，需要配合`limit`使用，**如果需要记住状态需要配置 RouteName**，我们会把 RouteName 做为保存在浏览器中的 key | boolean                                          |                                                     | false   |
 | limit               | 最多显示多少个`field`项，`showMore=true`的时候有效           | number                                           |                                                     | 4       |
@@ -587,7 +592,7 @@ props: {
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import type { FormExpose } from 'element-pro'
+import type { FormExpose } from 'element-next'
 
 export default defineComponent({
   setup() {

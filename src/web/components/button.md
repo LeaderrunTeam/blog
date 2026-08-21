@@ -16,8 +16,8 @@ meta:
 ```vue
 <template>
   <div class="card-demo">
-    {{ count }}
-    <el-button @click="doClick">点击</el-button>
+    <p>点击次数：{{ count }}</p>
+    <n-button type="primary" :debounce="800" @click="doClick">快速连续点击</n-button>
   </div>
 </template>
 
@@ -53,3 +53,5 @@ export default {
 | Name     | Description                            | Type   | Options | Default |
 | -------- | -------------------------------------- | ------ | ------- | ------- |
 | debounce | 防抖动，多少毫秒内只能触发一次点击事件 | number | -       | 300     |
+
+除 `debounce` 外，`NButton` 支持 `element-plus` `ElButton` 的全部属性、插槽和事件。

@@ -52,6 +52,8 @@ meta:
 | icon-placement | 图标在文本内容的左侧还是右侧 | string | left / right | left |
 | color | 图标颜色 | string | - | --el-color-primary |
 | content | 显示的内容，也可以通过 `slot#content` 传入 DOM。如果传入的是`string[]`对象，那么将内容作为 HTML 字符串处理，请确保 `content` 的内容是可信的 | `String| string[]` | — | — |
+| disabled | 是否禁用提示                                             | boolean | - | false |
+| raw-content | 是否将内容作为 HTML 渲染                             | boolean | - | false |
 | model-value / v-model | 状态是否可见 | boolean | — | false |
 
 ## Slots

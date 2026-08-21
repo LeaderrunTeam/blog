@@ -164,12 +164,13 @@ meta:
 | v-model | 绑定值 | array | - | - |
 | data | 绑定数据 | array | - | - |
 | config | 配置绑定数据键值 | object | - | `{ value: 'value', desc: 'desc', disabled: 'disabled', name: 'name' }` |
-| size | 尺寸 | string | medium / small / mini | - |
+| size | 尺寸 | string | default / small / large | small |
 | disabled | 是否禁用 | boolean | - | false |
 | text-color | 按钮形式激活时的文本颜色 | string | - | #ffffff |
 | fill | 按钮形式激活时的填充色和边框色 | string | - | #409EFF |
-| border | 是否显示边框 | boolean | - | false |
-| remoteConfig | 远程加载配置，请参考下面`RemoteConfig` | object | - | - |
+| border | 是否显示边框 | boolean | - | true |
+| remote-config | 远程加载配置，请参考下面`RemoteConfig` | object | - | - |
+| to-str | 是否将值统一转换为字符串 | boolean | - | false |
 
 ### RemoteConfig
 
@@ -203,6 +204,7 @@ meta:
 | disabled | 是否禁用 | boolean | - | false |
 | text-color | 按钮形式激活时的文本颜色 | string | - | #ffffff |
 | fill | 按钮形式激活时的填充色和边框色 | string | - | #409EFF |
+| to-str | 是否将值统一转换为字符串 | boolean | - | false |
 
 ### RadioButton Events
 

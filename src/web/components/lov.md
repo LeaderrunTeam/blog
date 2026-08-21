@@ -140,6 +140,11 @@ export default {
 | title             | 窗口标题                               | string        | -       | -       |
 | db-click-show     | 双击按钮显示弹窗                       | boolean       | -       | true    |
 | value-key         | v-model 值在表格行数据的 key           | string        | -       | -       |
+| disabled          | 是否禁用输入和打开按钮                 | boolean       | -       | false   |
+| readonly          | 是否只读                               | boolean       | -       | false   |
+| outside-height    | 弹窗表格外部占用高度                   | number        | -       | -       |
+| show-btn          | 是否显示选择按钮                       | boolean       | -       | true    |
+| width             | 弹窗宽度                               | string        | -       | `50%`   |
 
 **支持[NTableForm 属性](./table-form.md#props) 和 [Dialog 属性](./dialog.md#props)**
 
